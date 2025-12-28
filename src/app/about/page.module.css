@@ -1,0 +1,236 @@
+.page {
+    padding: var(--space-xl) 0 var(--space-3xl);
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+}
+
+/* Hero */
+.hero {
+    text-align: center;
+    padding: var(--space-2xl) 0 var(--space-3xl);
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: var(--space-lg);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+/* Sections */
+.section {
+    margin-bottom: var(--space-3xl);
+}
+
+.sectionTitle {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: var(--space-xl);
+    text-align: center;
+}
+
+.content {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+}
+
+.text {
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: var(--space-lg);
+}
+
+.text:last-child {
+    margin-bottom: 0;
+}
+
+/* Values Grid */
+.valuesGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+}
+
+.valueCard {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    text-align: center;
+    transition: all var(--transition-base);
+}
+
+.valueCard:hover {
+    border-color: var(--color-border-hover);
+    transform: translateY(-4px);
+}
+
+.valueIcon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-md);
+}
+
+.valueTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+}
+
+.valueText {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
+
+/* Team Grid */
+.teamGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+}
+
+.teamCard {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    text-align: center;
+    transition: all var(--transition-base);
+}
+
+.teamCard:hover {
+    border-color: var(--color-accent-primary);
+}
+
+.teamAvatar {
+    font-size: 4rem;
+    margin-bottom: var(--space-md);
+}
+
+.teamName {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+}
+
+.teamRole {
+    font-size: 0.9rem;
+    color: var(--color-accent-primary);
+    margin-bottom: var(--space-md);
+}
+
+.teamBio {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
+
+/* Stats */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+    margin-bottom: var(--space-3xl);
+}
+
+.statItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    text-align: center;
+}
+
+.statNumber {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--color-accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.statLabel {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+/* CTA */
+.cta {
+    text-align: center;
+    padding: var(--space-3xl);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.ctaTitle {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+    position: relative;
+}
+
+.ctaText {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+    position: relative;
+}
+
+.ctaButtons {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    position: relative;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .valuesGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .teamGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ctaButtons {
+        flex-direction: column;
+    }
+}

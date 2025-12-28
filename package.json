@@ -1,0 +1,30 @@
+{
+  "name": "project-selling-website",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "next": "^14.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@prisma/client": "^5.7.1",
+    "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@types/bcryptjs": "^2.4.6",
+    "typescript": "^5.3.3",
+    "prisma": "^5.7.1",
+    "tsx": "^4.7.0"
+  }
+}

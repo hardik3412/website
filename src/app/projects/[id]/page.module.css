@@ -1,0 +1,326 @@
+.page {
+    padding: var(--space-xl) 0 var(--space-3xl);
+}
+
+.container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xl);
+}
+
+.breadcrumb a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.breadcrumb a:hover {
+    color: var(--color-accent-primary);
+}
+
+/* Layout */
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: var(--space-2xl);
+    align-items: start;
+}
+
+/* Main Content */
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+.imageWrapper {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+}
+
+.image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.featured {
+    position: absolute;
+    top: var(--space-md);
+    left: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    border-radius: var(--radius-full);
+}
+
+.content {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+}
+
+.header {
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.category {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-accent-primary);
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-md);
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+    line-height: 1.2;
+}
+
+.description {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+.section {
+    margin-bottom: var(--space-xl);
+}
+
+.section:last-child {
+    margin-bottom: 0;
+}
+
+.sectionTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+    color: var(--color-text-primary);
+}
+
+.technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.tech {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.longDescription {
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+}
+
+.longDescription p {
+    margin-bottom: var(--space-md);
+}
+
+.longDescription p:last-child {
+    margin-bottom: 0;
+}
+
+.links {
+    display: flex;
+    gap: var(--space-md);
+}
+
+/* Sidebar */
+.sidebar {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-xl));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.purchaseCard {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+}
+
+.priceWrapper {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.priceLabel {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xs);
+}
+
+.price {
+    font-size: 3rem;
+    font-weight: 700;
+    background: var(--color-accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.features {
+    list-style: none;
+    margin-bottom: var(--space-xl);
+}
+
+.features li {
+    padding: var(--space-sm) 0;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+}
+
+.guarantee {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-top: var(--space-md);
+}
+
+.metaCard {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
+}
+
+.metaItem {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-sm) 0;
+}
+
+.metaItem:not(:last-child) {
+    border-bottom: 1px solid var(--color-border);
+}
+
+.metaLabel {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.metaValue {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+/* Related Projects */
+.related {
+    margin-top: var(--space-3xl);
+    padding-top: var(--space-2xl);
+    border-top: 1px solid var(--color-border);
+}
+
+.relatedTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: var(--space-xl);
+}
+
+.relatedGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+}
+
+.relatedCard {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    text-decoration: none;
+    transition: all var(--transition-base);
+}
+
+.relatedCard:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-border-hover);
+}
+
+.relatedImage {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.relatedContent {
+    padding: var(--space-md);
+}
+
+.relatedCardTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+    color: var(--color-text-primary);
+}
+
+.relatedPrice {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-accent-primary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .image {
+        height: 250px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .price {
+        font-size: 2.5rem;
+    }
+
+    .relatedGrid {
+        grid-template-columns: 1fr;
+    }
+}
