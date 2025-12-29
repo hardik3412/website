@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import styles from './Header.module.css'
@@ -24,8 +25,14 @@ export default function Header() {
         <header className={styles.header}>
             <div className={styles.container}>
                 <Link href="/" className={styles.logo}>
-                    <span className={styles.logoIcon}>⚡</span>
-                    <span className={styles.logoText}>ProjectHub</span>
+                    <Image
+                        src="/CraftKaro-removebg-preview.png"
+                        alt="CraftKaro"
+                        width={450}
+                        height={120}
+                        className={styles.logoImage}
+                        priority
+                    />
                 </Link>
 
                 <nav className={styles.nav}>
