@@ -8,10 +8,15 @@ import type { Metadata } from 'next'
 export const dynamic = 'force-dynamic'
 
 async function getProject(id: string) {
-    const project = await prisma.project.findUnique({
-        where: { id },
-    })
-    return project
+    try {
+        const project = await prisma.project.findUnique({
+            where: { id },
+        })
+        return project
+    } catch (error) {
+        console.error('Failed to fetch project:', error)
+        return null
+    }
 }
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
@@ -37,14 +42,19 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 async function getRelatedProjects(category: string, excludeId: string) {
-    return prisma.project.findMany({
-        where: {
-            category,
-            id: { not: excludeId },
-            status: 'active',
-        },
-        take: 3,
-    })
+    try {
+        return await prisma.project.findMany({
+            where: {
+                category,
+                id: { not: excludeId },
+                status: 'active',
+            },
+            take: 3,
+        })
+    } catch (error) {
+        console.error('Failed to fetch related projects:', error)
+        return []
+    }
 }
 
 interface ProjectPageProps {

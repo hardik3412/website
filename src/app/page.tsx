@@ -11,20 +11,30 @@ export const metadata: Metadata = {
 }
 
 async function getProjects(category?: string) {
-    const where = category ? { category, status: 'active' } : { status: 'active' }
-    return prisma.project.findMany({
-        where,
-        orderBy: [{ featured: 'desc' }, { createdAt: 'desc' }],
-    })
+    try {
+        const where = category ? { category, status: 'active' } : { status: 'active' }
+        return await prisma.project.findMany({
+            where,
+            orderBy: [{ featured: 'desc' }, { createdAt: 'desc' }],
+        })
+    } catch (error) {
+        console.error('Failed to fetch projects:', error)
+        return []
+    }
 }
 
 async function getCategories() {
-    const projects = await prisma.project.findMany({
-        where: { status: 'active' },
-        select: { category: true },
-        distinct: ['category'],
-    })
-    return projects.map((p) => p.category)
+    try {
+        const projects = await prisma.project.findMany({
+            where: { status: 'active' },
+            select: { category: true },
+            distinct: ['category'],
+        })
+        return projects.map((p) => p.category)
+    } catch (error) {
+        console.error('Failed to fetch categories:', error)
+        return []
+    }
 }
 
 async function getSettings() {

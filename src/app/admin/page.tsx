@@ -7,45 +7,66 @@ import styles from './page.module.css'
 export const dynamic = 'force-dynamic'
 
 async function getStats(userId: string, role: string) {
-    const isUser = role === 'USER'
-    const where = isUser ? { userId } : { status: 'active' }
+    try {
+        const isUser = role === 'USER'
+        const where = isUser ? { userId } : { status: 'active' }
 
-    const [projectCount, messageCount, unreadCount, featuredCount, totalEarnings] = await Promise.all([
-        prisma.project.count({ where }),
-        role === 'ADMIN' ? prisma.contactMessage.count() : 0,
-        role === 'ADMIN' ? prisma.contactMessage.count({ where: { isRead: false } }) : 0,
-        prisma.project.count({ where: { ...where, featured: true } }),
-        prisma.sale.aggregate({
-            where: isUser ? { sellerId: userId } : {},
-            _sum: { amount: true }
-        })
-    ])
+        const [projectCount, messageCount, unreadCount, featuredCount, totalEarnings] = await Promise.all([
+            prisma.project.count({ where }),
+            role === 'ADMIN' ? prisma.contactMessage.count() : 0,
+            role === 'ADMIN' ? prisma.contactMessage.count({ where: { isRead: false } }) : 0,
+            prisma.project.count({ where: { ...where, featured: true } }),
+            prisma.sale.aggregate({
+                where: isUser ? { sellerId: userId } : {},
+                _sum: { amount: true }
+            })
+        ])
 
-    return {
-        projectCount,
-        messageCount,
-        unreadCount,
-        featuredCount,
-        earnings: totalEarnings._sum.amount || 0
+        return {
+            projectCount,
+            messageCount,
+            unreadCount,
+            featuredCount,
+            earnings: totalEarnings._sum.amount || 0
+        }
+    } catch (error) {
+        console.error('Failed to fetch stats:', error)
+        return {
+            projectCount: 0,
+            messageCount: 0,
+            unreadCount: 0,
+            featuredCount: 0,
+            earnings: 0
+        }
     }
 }
 
 async function getRecentProjects(userId: string, role: string) {
-    const where = role === 'USER' ? { userId } : {}
-    return prisma.project.findMany({
-        where,
-        take: 5,
-        orderBy: { createdAt: 'desc' },
-        select: { id: true, title: true, category: true, price: true, createdAt: true },
-    })
+    try {
+        const where = role === 'USER' ? { userId } : {}
+        return await prisma.project.findMany({
+            where,
+            take: 5,
+            orderBy: { createdAt: 'desc' },
+            select: { id: true, title: true, category: true, price: true, createdAt: true },
+        })
+    } catch (error) {
+        console.error('Failed to fetch recent projects:', error)
+        return []
+    }
 }
 
 async function getRecentMessages() {
-    return prisma.contactMessage.findMany({
-        take: 5,
-        orderBy: { createdAt: 'desc' },
-        select: { id: true, name: true, subject: true, isRead: true, createdAt: true },
-    })
+    try {
+        return await prisma.contactMessage.findMany({
+            take: 5,
+            orderBy: { createdAt: 'desc' },
+            select: { id: true, name: true, subject: true, isRead: true, createdAt: true },
+        })
+    } catch (error) {
+        console.error('Failed to fetch recent messages:', error)
+        return []
+    }
 }
 
 export default async function AdminDashboard() {

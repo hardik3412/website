@@ -167,7 +167,35 @@ Modify CSS custom properties in `src/app/globals.css`:
 }
 ```
 
-## 📝 License
+## � Deploying to Vercel
+
+1. **Set up a PostgreSQL database**:
+   - Create a PostgreSQL database (e.g., [Vercel Postgres](https://vercel.com/docs/storage/vercel-postgres), [Neon](https://neon.tech), or [Supabase](https://supabase.com))
+   - Get the connection string
+
+2. **Configure environment variables in Vercel**:
+   - Go to your Vercel project settings
+   - Add all environment variables from your `.env` file
+   - Update `DATABASE_URL` with your PostgreSQL connection string
+
+3. **Deploy and set up database**:
+   - Push your code to GitHub/GitLab
+   - Connect the repository to Vercel
+   - After first deployment, run database setup:
+     ```bash
+     # From your local terminal with Vercel CLI
+     vercel env pull  # Pull env variables
+     npx prisma db push  # Push schema to production DB
+     npm run db:seed  # Seed with sample data (optional)
+     ```
+   - Alternatively, add a build script in `package.json` to auto-run migrations
+
+4. **Important Notes**:
+   - SQLite is not supported on Vercel (use PostgreSQL)
+   - Database must be set up before the app fully functions
+   - Email credentials (SMTP) should be configured for contact forms to work
+
+## �📝 License
 
 This project is for educational/demonstration purposes.
 
