@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import styles from './page.module.css'
 
+export const dynamic = 'force-dynamic'
+
 async function getStats(userId: string, role: string) {
     const isUser = role === 'USER'
     const where = isUser ? { userId } : { status: 'active' }

@@ -2,14 +2,21 @@ import { prisma } from '@/lib/prisma'
 import styles from './page.module.css'
 import type { Metadata } from 'next'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
     title: 'About Us',
     description: 'Learn more about ProjectHub, our mission, values, and the team behind these premium digital solutions.',
 }
 
 async function getSettings() {
-    const settings = await prisma.siteSetting.findMany()
-    return settings.reduce((acc, s) => ({ ...acc, [s.key]: s.value }), {} as Record<string, string>)
+    try {
+        const settings = await prisma.siteSetting.findMany()
+        return settings.reduce((acc, s) => ({ ...acc, [s.key]: s.value }), {} as Record<string, string>)
+    } catch (error) {
+        console.error('Failed to fetch settings:', error)
+        return {}
+    }
 }
 
 export default async function AboutPage() {

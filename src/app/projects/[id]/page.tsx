@@ -5,6 +5,8 @@ import styles from './page.module.css'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
+export const dynamic = 'force-dynamic'
+
 async function getProject(id: string) {
     const project = await prisma.project.findUnique({
         where: { id },
