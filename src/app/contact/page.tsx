@@ -36,7 +36,7 @@ export default function ContactPage() {
                             <div className={styles.infoCard}>
                                 <div className={styles.infoIcon}>📧</div>
                                 <h3 className={styles.infoTitle}>Email</h3>
-                                <p className={styles.infoText}>contact@projecthub.com</p>
+                                <p className={styles.infoText}>hardik3412@gmail.com</p>
                             </div>
 
                             <div className={styles.infoCard}>
@@ -48,7 +48,7 @@ export default function ContactPage() {
                             <div className={styles.infoCard}>
                                 <div className={styles.infoIcon}>📞</div>
                                 <h3 className={styles.infoTitle}>Phone</h3>
-                                <p className={styles.infoText}>+1 (555) 123-4567</p>
+                                <p className={styles.infoText}>+91 8882316778</p>
                             </div>
 
                             <div className={styles.infoCard}>

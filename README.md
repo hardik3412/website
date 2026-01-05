@@ -9,6 +9,7 @@ A modern, full-stack web application for selling digital projects, built with Ne
 - **Project Details**: Full project information with purchase card and related projects
 - **About Us**: Team, values, and company statistics
 - **Contact Us**: Contact form with validation and submission
+- **Custom Project Request**: Comprehensive form for requesting custom development projects with email notifications
 
 ### Admin & User Panel
 - **Multi-user Support**: Both Admin and regular Users can have access
@@ -45,24 +46,50 @@ A modern, full-stack web application for selling digital projects, built with Ne
    npm install
    ```
 
-2. **Set up the database**:
+2. **Configure environment variables**:
+   Create a `.env` file in the root directory:
+   ```env
+   DATABASE_URL="postgresql://postgres:password@localhost:5432/database?sslmode=disable"
+   
+   # Email Configuration (Mailtrap for testing)
+   SMTP_HOST=sandbox.smtp.mailtrap.io
+   SMTP_PORT=2525
+   SMTP_USER=your-mailtrap-username
+   SMTP_PASS=your-mailtrap-password
+   ADMIN_EMAIL=admin@example.com
+   ```
+
+   **To set up Mailtrap (for email testing)**:
+   - Sign up at [mailtrap.io](https://mailtrap.io)
+   - Create an inbox
+   - Copy SMTP credentials from inbox settings
+   - Update `SMTP_USER` and `SMTP_PASS` in `.env`
+
+3. **Set up the database**:
    ```bash
    npx prisma db push
    ```
 
-3. **Seed with sample data**:
+4. **Seed with sample data**:
    ```bash
+
+### Email Features
+- Contact form submissions send email notifications to admin
+- Custom project requests send detailed email with all requirements
+- Emails are caught in Mailtrap during development (no real emails sent)
+- For production, replace Mailtrap settings with real SMTP (Gmail, SendGrid, etc.)
    npm run db:seed
    ```
 
-```
+5. **Start development server**:
    ```bash
    npm run dev
    ```
 
-5. **Open in browser**:
+6. **Open in browser**:
    - Public site: http://localhost:3000
-   - Admin/User Dashboard: http://localhost:3000/admin (Hidden from public header)
+   - Custom Project Request: http://localhost:3000/custom-project
+   - Admin/User Dashboard: http://localhost:3000/admin
 
 ### Access Control
 - **Admin**: Full access to all data and site settings.
@@ -78,11 +105,14 @@ A modern, full-stack web application for selling digital projects, built with Ne
 project/
 ├── prisma/
 │   ├── schema.prisma      # Database schema
-│   └── seed.ts            # Sample data seeder
-├── src/
-│   ├── app/
-│   │   ├── page.tsx       # Home page
-│   │   ├── about/         # About page
+│   └── seedcustom-project/ # Custom project request page
+│   │   ├── projects/[id]/ # Project detail page
+│   │   ├── admin/         # Admin panel pages
+│   │   └── api/           # API routes
+│   ├── components/        # Reusable components
+│   ├── lib/               # Utilities and database client
+│   └── middleware.ts      # Route protection & auth
+├── .env                   # Environment variables
 │   │   ├── contact/       # Contact page
 │   │   ├── projects/[id]/ # Project detail page
 │   │   ├── admin/         # Admin panel pages
@@ -107,7 +137,9 @@ project/
 ## 📊 Database Schema
 
 - **User**: System users with either ADMIN or USER roles
-- **Project**: Project listings linked to a specific `User` (owner)
+- Middleware protects admin routes from unauthorized access
+- Automatic redirect to login for unauthenticated users
+- Email credentials stored securely in environment variablesner)
 - **Sale**: Records of project purchases for earnings tracking
 - **ContactMessage**: Contact form submissions
 - **SiteSetting**: Customizable site content settings
@@ -141,4 +173,3 @@ This project is for educational/demonstration purposes.
 
 ---
 
-Built with ❤️ using Next.js
