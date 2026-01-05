@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
+import SearchBar from './SearchBar'
 import styles from './Header.module.css'
 
 export default function Header() {
@@ -14,6 +15,7 @@ export default function Header() {
         { href: '/', label: 'Home' },
         { href: '/about', label: 'About' },
         { href: '/contact', label: 'Contact' },
+        { href: '/custom-project', label: 'Custom Project' },
     ]
 
     const isActive = (href: string) => {
@@ -47,10 +49,11 @@ export default function Header() {
                     ))}
                 </nav>
 
+                <div className={styles.search}>
+                    <SearchBar />
+                </div>
+
                 <div className={styles.actions}>
-                    <Link href="/admin" className={styles.adminLink}>
-                        Admin
-                    </Link>
                 </div>
 
                 <button

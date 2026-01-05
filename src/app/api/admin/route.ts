@@ -6,7 +6,7 @@ import { cookies } from 'next/headers'
 // Force dynamic rendering - don't try to build this at build time
 export const dynamic = 'force-dynamic'
 
-// POST /api/admin/login - Admin login
+// POST /api/admin - User login
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
@@ -18,18 +18,18 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        const admin = await prisma.admin.findUnique({
+        const user = await prisma.user.findUnique({
             where: { username: body.username },
         })
 
-        if (!admin) {
+        if (!user) {
             return NextResponse.json(
                 { error: 'Invalid credentials' },
                 { status: 401 }
             )
         }
 
-        const isValid = await bcrypt.compare(body.password, admin.passwordHash)
+        const isValid = await bcrypt.compare(body.password, user.passwordHash)
 
         if (!isValid) {
             return NextResponse.json(
@@ -38,14 +38,18 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        // Set session cookie
+        // Set session cookies
         const cookieStore = cookies()
-        cookieStore.set('admin_session', admin.username, {
+        const cookieOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
+            sameSite: 'lax' as const,
             maxAge: 60 * 60 * 24, // 24 hours
-        })
+        }
+
+        cookieStore.set('session_user_id', user.id, cookieOptions)
+        cookieStore.set('session_username', user.username, cookieOptions)
+        cookieStore.set('session_role', user.role, cookieOptions)
 
         return NextResponse.json({ message: 'Login successful' })
     } catch (error) {
@@ -57,11 +61,13 @@ export async function POST(request: NextRequest) {
     }
 }
 
-// DELETE /api/admin/login - Admin logout
+// DELETE /api/admin - User logout
 export async function DELETE() {
     try {
         const cookieStore = cookies()
-        cookieStore.delete('admin_session')
+        cookieStore.delete('session_user_id')
+        cookieStore.delete('session_username')
+        cookieStore.delete('session_role')
 
         return NextResponse.json({ message: 'Logged out successfully' })
     } catch (error) {
@@ -73,17 +79,24 @@ export async function DELETE() {
     }
 }
 
-// GET /api/admin/login - Check auth status
+// GET /api/admin - Check auth status
 export async function GET() {
     try {
         const cookieStore = cookies()
-        const session = cookieStore.get('admin_session')
+        const userId = cookieStore.get('session_user_id')
+        const username = cookieStore.get('session_username')
+        const role = cookieStore.get('session_role')
 
-        if (!session) {
+        if (!userId) {
             return NextResponse.json({ authenticated: false })
         }
 
-        return NextResponse.json({ authenticated: true, username: session.value })
+        return NextResponse.json({
+            authenticated: true,
+            userId: userId.value,
+            username: username?.value,
+            role: role?.value
+        })
     } catch (error) {
         return NextResponse.json({ authenticated: false })
     }

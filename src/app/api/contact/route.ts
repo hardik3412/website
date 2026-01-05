@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { sendContactEmail } from '@/lib/email'
 
 export const dynamic = 'force-dynamic'
 
@@ -33,6 +34,14 @@ export async function POST(request: NextRequest) {
                 message: body.message,
             },
         })
+
+        // Send email notification (non-blocking)
+        sendContactEmail({
+            name: body.name,
+            email: body.email,
+            subject: body.subject,
+            message: body.message,
+        }).catch(err => console.error('Background email sending failed:', err))
 
         return NextResponse.json(
             { message: 'Message sent successfully', id: message.id },

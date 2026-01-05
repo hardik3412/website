@@ -93,10 +93,6 @@ export default function AdminLoginPage() {
                         </button>
                     </form>
 
-                    <div className={styles.hint}>
-                        <p>Default credentials:</p>
-                        <code>admin / admin123</code>
-                    </div>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import ImageUpload from '@/components/ImageUpload'
 import styles from './page.module.css'
 
 export default function NewProjectPage() {
@@ -195,21 +196,11 @@ export default function NewProjectPage() {
                             </small>
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="imageUrl" className="form-label">
-                                Image URL *
-                            </label>
-                            <input
-                                type="url"
-                                id="imageUrl"
-                                name="imageUrl"
-                                value={formData.imageUrl}
-                                onChange={handleChange}
-                                className="form-input"
-                                placeholder="https://example.com/image.jpg"
-                                required
-                            />
-                        </div>
+                        <ImageUpload
+                            value={formData.imageUrl}
+                            onChange={(url) => setFormData({ ...formData, imageUrl: url })}
+                            label="Project Image"
+                        />
 
                         <div className={styles.formRow}>
                             <div className="form-group">

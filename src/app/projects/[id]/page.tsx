@@ -3,12 +3,35 @@ import { notFound } from 'next/navigation'
 import { formatPrice, formatDate } from '@/lib/utils'
 import styles from './page.module.css'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 
 async function getProject(id: string) {
     const project = await prisma.project.findUnique({
         where: { id },
     })
     return project
+}
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+    const project = await getProject(params.id)
+    if (!project) return { title: 'Project Not Found' }
+
+    return {
+        title: project.title,
+        description: project.description,
+        openGraph: {
+            title: project.title,
+            description: project.description,
+            images: [project.imageUrl],
+            type: 'article',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: project.title,
+            description: project.description,
+            images: [project.imageUrl],
+        },
+    }
 }
 
 async function getRelatedProjects(category: string, excludeId: string) {

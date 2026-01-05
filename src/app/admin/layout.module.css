@@ -15,6 +15,7 @@
     left: 0;
     bottom: 0;
     z-index: 100;
+    overflow-y: auto;
 }
 
 .sidebarHeader {
@@ -47,6 +48,7 @@
     padding: var(--space-md);
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
     gap: var(--space-xs);
 }
 
@@ -109,11 +111,23 @@
     border-radius: var(--radius-lg);
     cursor: pointer;
     transition: all var(--transition-fast);
+    text-align: left;
+    font-family: inherit;
 }
 
 .logoutBtn:hover {
     color: var(--color-error);
     background: rgba(239, 68, 68, 0.1);
+}
+
+.logoutBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.logoutBtn:disabled:hover {
+    color: var(--color-text-secondary);
+    background: none;
 }
 
 /* Main Content */

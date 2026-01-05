@@ -1,5 +1,11 @@
 import { prisma } from '@/lib/prisma'
 import styles from './page.module.css'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'About Us',
+    description: 'Learn more about ProjectHub, our mission, values, and the team behind these premium digital solutions.',
+}
 
 async function getSettings() {
     const settings = await prisma.siteSetting.findMany()

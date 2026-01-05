@@ -10,11 +10,13 @@ A modern, full-stack web application for selling digital projects, built with Ne
 - **About Us**: Team, values, and company statistics
 - **Contact Us**: Contact form with validation and submission
 
-### Admin Panel
-- **Dashboard**: Statistics overview, recent projects, and unread messages
-- **Project Management**: Add, edit, and delete projects with full CRUD operations
-- **Messages**: View, read, and manage contact form submissions
-- **Site Settings**: Customize hero text, about content, and contact information
+### Admin & User Panel
+- **Multi-user Support**: Both Admin and regular Users can have access
+- **Personal Dashboard**: Users see only their own projects, earnings, and stats
+- **Admin Overview**: Single admin oversees all users, projects, and global earnings
+- **Project Management**: Add, edit, and delete projects with ownership checks
+- **Messages**: Admin can view and manage contact form submissions
+- **Site Settings**: Admin can customize hero text, about content, and contact info
 
 ### Design
 - 🌙 Premium dark theme with purple/blue gradients
@@ -53,18 +55,22 @@ A modern, full-stack web application for selling digital projects, built with Ne
    npm run db:seed
    ```
 
-4. **Start the development server**:
+```
    ```bash
    npm run dev
    ```
 
 5. **Open in browser**:
    - Public site: http://localhost:3000
-   - Admin panel: http://localhost:3000/admin
+   - Admin/User Dashboard: http://localhost:3000/admin (Hidden from public header)
 
-### Default Admin Credentials
-- **Username**: `admin`
-- **Password**: `admin123`
+### Access Control
+- **Admin**: Full access to all data and site settings.
+- **Users**: Can upload projects and track their own earnings.
+
+### Default Credentials
+- **Admin**: `admin` / `admin123`
+- **Sample User**: `user1` / `admin123`
 
 ## 📁 Project Structure
 
@@ -100,10 +106,11 @@ project/
 
 ## 📊 Database Schema
 
-- **Project**: Store project listings with title, description, price, category, etc.
-- **ContactMessage**: Store contact form submissions
-- **SiteSetting**: Store customizable site content (key-value pairs)
-- **Admin**: Store admin user credentials
+- **User**: System users with either ADMIN or USER roles
+- **Project**: Project listings linked to a specific `User` (owner)
+- **Sale**: Records of project purchases for earnings tracking
+- **ContactMessage**: Contact form submissions
+- **SiteSetting**: Customizable site content settings
 
 ## 🔒 Security Notes
 

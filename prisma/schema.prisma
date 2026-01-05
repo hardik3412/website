@@ -3,8 +3,19 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           String    @id @default(cuid())
+  username     String    @unique
+  passwordHash String
+  role         String    @default("USER") // "ADMIN" or "USER"
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  projects     Project[]
+  sales        Sale[]    @relation("SellerSales")
 }
 
 model Project {
@@ -20,8 +31,21 @@ model Project {
   sourceUrl       String?
   status          String   @default("active")
   featured        Boolean  @default(false)
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id])
+  sales           Sale[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+model Sale {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id])
+  sellerId  String
+  seller    User     @relation("SellerSales", fields: [sellerId], references: [id])
+  amount    Float
+  createdAt DateTime @default(now())
 }
 
 model ContactMessage {
@@ -38,10 +62,4 @@ model SiteSetting {
   id    String @id @default(cuid())
   key   String @unique
   value String
-}
-
-model Admin {
-  id           String @id @default(cuid())
-  username     String @unique
-  passwordHash String
 }

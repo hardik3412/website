@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { cookies } from 'next/headers'
 
 export const dynamic = 'force-dynamic'
 
@@ -7,11 +8,19 @@ interface RouteParams {
     params: { id: string }
 }
 
+async function getAuthContext() {
+    const cookieStore = cookies()
+    const userId = cookieStore.get('session_user_id')?.value
+    const role = cookieStore.get('session_role')?.value
+    return { userId, role }
+}
+
 // GET /api/projects/[id] - Get a single project
 export async function GET(request: NextRequest, { params }: RouteParams) {
     try {
         const project = await prisma.project.findUnique({
             where: { id: params.id },
+            include: { user: { select: { username: true, role: true } } }
         })
 
         if (!project) {
@@ -31,12 +40,30 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     }
 }
 
-// PUT /api/projects/[id] - Update a project
+// PUT /api/projects/[id] - Update a project (Owner or Admin only)
 export async function PUT(request: NextRequest, { params }: RouteParams) {
     try {
+        const { userId, role } = await getAuthContext()
+        if (!userId) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
+        const project = await prisma.project.findUnique({
+            where: { id: params.id },
+        })
+
+        if (!project) {
+            return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+        }
+
+        // Check ownership
+        if (role !== 'ADMIN' && project.userId !== userId) {
+            return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+        }
+
         const body = await request.json()
 
-        const project = await prisma.project.update({
+        const updatedProject = await prisma.project.update({
             where: { id: params.id },
             data: {
                 title: body.title,
@@ -49,11 +76,11 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
                 demoUrl: body.demoUrl || null,
                 sourceUrl: body.sourceUrl || null,
                 status: body.status,
-                featured: body.featured,
+                featured: role === 'ADMIN' ? body.featured : project.featured, // Only admin can change featured status
             },
         })
 
-        return NextResponse.json(project)
+        return NextResponse.json(updatedProject)
     } catch (error) {
         console.error('Error updating project:', error)
         return NextResponse.json(
@@ -63,9 +90,27 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 }
 
-// DELETE /api/projects/[id] - Delete a project
+// DELETE /api/projects/[id] - Delete a project (Owner or Admin only)
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
     try {
+        const { userId, role } = await getAuthContext()
+        if (!userId) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
+        const project = await prisma.project.findUnique({
+            where: { id: params.id },
+        })
+
+        if (!project) {
+            return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+        }
+
+        // Check ownership
+        if (role !== 'ADMIN' && project.userId !== userId) {
+            return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+        }
+
         await prisma.project.delete({
             where: { id: params.id },
         })

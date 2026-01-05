@@ -1,6 +1,12 @@
 import { prisma } from '@/lib/prisma'
 import ProjectCard from '@/components/ProjectCard'
 import styles from './page.module.css'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Explore Projects',
+    description: 'Browse our extensive collection of premium digital projects, templates, and source code.',
+}
 
 async function getProjects(category?: string) {
     const where = category ? { category, status: 'active' } : { status: 'active' }

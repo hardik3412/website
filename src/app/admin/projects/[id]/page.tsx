@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import ImageUpload from '@/components/ImageUpload'
 import styles from '../new/page.module.css'
 
 interface EditProjectPageProps {
@@ -232,20 +233,11 @@ export default function EditProjectPage({ params }: EditProjectPageProps) {
                             </small>
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="imageUrl" className="form-label">
-                                Image URL *
-                            </label>
-                            <input
-                                type="url"
-                                id="imageUrl"
-                                name="imageUrl"
-                                value={formData.imageUrl}
-                                onChange={handleChange}
-                                className="form-input"
-                                required
-                            />
-                        </div>
+                        <ImageUpload
+                            value={formData.imageUrl}
+                            onChange={(url) => setFormData({ ...formData, imageUrl: url })}
+                            label="Project Image"
+                        />
 
                         <div className={styles.formRow}>
                             <div className="form-group">
