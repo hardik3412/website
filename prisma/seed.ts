@@ -161,13 +161,16 @@ Ideal for fitness enthusiasts and gym owners looking for a branded app solution.
     // 4. Create sample sales for stats
     const projects = await prisma.project.findMany()
     for (const p of projects) {
-        // Create 2 random sales for each project
-        await prisma.sale.createMany({
-            data: [
-                { projectId: p.id, sellerId: p.userId!, amount: p.price },
-                { projectId: p.id, sellerId: p.userId!, amount: p.price },
-            ]
-        })
+        // Only create sales for projects that have a userId
+        if (p.userId) {
+            // Create 2 random sales for each project
+            await prisma.sale.createMany({
+                data: [
+                    { projectId: p.id, sellerId: p.userId, amount: p.price },
+                    { projectId: p.id, sellerId: p.userId, amount: p.price },
+                ]
+            })
+        }
     }
 
     console.log('✅ Database seeded successfully!')
