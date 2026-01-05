@@ -17,10 +17,10 @@ export async function GET(request: NextRequest) {
             where: {
                 status: 'active',
                 OR: [
-                    { title: { contains: query, mode: 'insensitive' } },
-                    { description: { contains: query, mode: 'insensitive' } },
-                    { technologies: { contains: query, mode: 'insensitive' } },
-                    { category: { contains: query, mode: 'insensitive' } },
+                    { title: { contains: query } },
+                    { description: { contains: query } },
+                    { technologies: { contains: query } },
+                    { category: { contains: query } },
                 ],
             },
             take: 8,
